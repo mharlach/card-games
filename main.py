@@ -1,7 +1,7 @@
 from card import Card
 from deck import Deck
 from game import PokerGame
-from game import evaluatePokerHand
+from game import evaluate_poker_hand
 
 for i in range(10):
     pokerGame = PokerGame()
@@ -10,6 +10,6 @@ for i in range(10):
 
     print("==== Game {num} ====".format(num = i))
     for p in pokerGame.players:
-        print(p.toShortString())
+        print(p)
     print()
-    print("{winner} -- {hand}".format(winner=winner.name, hand=winningHand.toLongString()))
+    print("{winner} -- {hand}".format(winner=winner.name, hand=winningHand.to_long_string()))

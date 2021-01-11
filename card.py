@@ -4,13 +4,16 @@ class Card:
         self.number = number
         self.faceValue = str(number)
         self.cardValue = number
-        self.setFaceValue()
-        self.setCardValue()
+        self.set_face_value()
+        self.set_card_value()
 
-    def toString(self):
+    def __str__(self):
         return str(self.faceValue) + "-" + self.suit
 
-    def setFaceValue(self):
+    # def toString(self):
+    #     return str(self.faceValue) + "-" + self.suit
+
+    def set_face_value(self):
         if self.number == 11:
             self.faceValue = "Jack"
         elif self.number == 12:
@@ -19,9 +22,7 @@ class Card:
             self.faceValue = "King"
         elif self.number == 1:
             self.faceValue = "Ace"
-    
-    def setCardValue(self):
+
+    def set_card_value(self):
         if self.number == 1:
             self.cardValue = 14
-
-
