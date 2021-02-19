@@ -1,23 +1,22 @@
-from random import randint
-from card import Card
-
+from card import Card, CardSuits
+import random
 
 class Deck:
-    def __init__(self):
+    def __init__(self) -> None:
         self.cards = []
-        suits = ["Clubs", "Diamonds", "Spades", "Hearts"]
+        suits = [CardSuits.Hearts, CardSuits.Diamonds, CardSuits.Spades, CardSuits.Clubs]
         for s in suits:
             for v in range(1, 14):
                 self.cards.append(Card(s, v))
 
-    def shuffle(self):
-        for n in range(0, 51):
-            a = randint(0, 51)
-            b = randint(0, 51)
-            cardA = self.cards[a]
-            cardB = self.cards[b]
-            self.cards[a] = cardB
-            self.cards[b] = cardA
+    def shuffle(self) -> None:
+        random.shuffle(self.cards)
 
-    def take_card(self):
+    def take_card(self) -> Card:
         return self.cards.pop(0)
+
+    def __str__(self) -> str:
+        separator = "\n"
+        output = separator.join(map(lambda x: str(x), self.cards))
+        return output
+

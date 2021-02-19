@@ -1,15 +1,31 @@
-from card import Card
-from deck import Deck
-from game import PokerGame
-from game import evaluate_poker_hand
+from blackjack_game_results import BlackjackGameResults
+from blackjack_game_stage import BlackjackStage
+from blackjack_game import BlackjackGame
 
-for i in range(10):
-    pokerGame = PokerGame()
-    pokerGame.deal(3)
-    (winner, winningHand) = pokerGame.showdown()
+game = BlackjackGame()
+wins = 0
+losses = 0
+rounds = 0
+goAgain = True
+while(goAgain):
+    state = game.deal()
+    print(str(state))
+    while(state.stage != BlackjackStage.END):
+        print("***********")    
+        state = game.play(state)
+        print(str(state))
+        if state.gameResult == BlackjackGameResults.Win:
+            wins+=1
+        elif state.gameResult == BlackjackGameResults.Lose:
+            losses += 1
+        rounds += 1
 
-    print("==== Game {num} ====".format(num = i))
-    for p in pokerGame.players:
-        print(p)
-    print()
-    print("{winner} -- {hand}".format(winner=winner.name, hand=winningHand.to_long_string()))
+    print("\n")
+    inVal = input("Press enter to run again")
+    if inVal == "n":
+        goAgain = False
+    else:
+        print("\n")
+
+print("Wins: {w} -- Losses: {l}".format(w=str(wins), l=str(losses)))
+print("Games: {g}".format(g=str(rounds)))
