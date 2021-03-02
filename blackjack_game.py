@@ -1,3 +1,4 @@
+from blackjack_basic_strategey import BasicStrategy
 from enum import Enum
 from card import Card
 from deck import Deck
@@ -19,7 +20,7 @@ class BlackjackGame:
         if(self.shoe.refreshRequired):
             self.shoe.refresh(75)
 
-        player = BlackjackPlayer("Player 1")
+        player = BlackjackPlayer("Player 1", BasicStrategy())
         player.add_card(self.shoe.deal_card())
         player.add_card(self.shoe.deal_card())
 
