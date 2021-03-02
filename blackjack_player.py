@@ -1,52 +1,35 @@
 from player import Player
 from card import Card
 from blackjack_turn_choices import TurnChoices
-
+from blackjack_hand import PlayerHand
 
 
 class BlackjackPlayer(Player):
-    def __init__(self, name: str) -> None:
+    def __init__(self, name: str, handsCount: int) -> None:
         super().__init__(name)
-        self.value = [0,0]
+        self.handsCount = handsCount
+        self.hands = []
+        for i in range(handsCount):
+            self.hands.append(PlayerHand())
 
-    def get_value(self) -> list[int]:
-       return self.value
+    def add_card(self, card: Card, handIndex: int) -> None:
+        if handIndex < self.handsCount:
+            self.hands[handIndex].add_card(card)
 
-    def add_card(self, c: Card) -> None:
-        if(c.number >= 11 and c.number <= 13):
-            self.value[0] += 10
-            self.value[1] += 10
-        elif(c.number == 1):
-            self.value[0] += 1
-            self.value[1] += 11
-        else:
-            self.value[0] += c.number
-            self.value[1] += c.number
+    def make_turn_choice(self, handIndex: int) -> TurnChoices:
+        return TurnChoices.Hit
 
-        return super().add_card(c)
+    def split_hand(self, handIndex: int) -> None:
+        splitHandLeft = PlayerHand()
+        splitHandLeft.add_card(self.hands[handIndex].cards[0])
 
-    def has_blackjack(self) -> bool:
-        if(self.value[1] == 21 and len(self.cards) == 2):
-            return True
-        else:
-            return False
+        splitHandRight = PlayerHand()
+        splitHandRight.add_card(self.hands[handIndex].cards[1])
 
-    def has_bust(self) -> bool:
-        if(self.value[1] > 21):
-            return True
-        else:
-            return False
+        self.hands[handIndex] = splitHandLeft
+        self.hands.insert(handIndex + 1, splitHandRight)
 
-    def make_choice(self, dealerCard: Card) -> TurnChoices:
-        if(self.value[1] < 16):
-            return TurnChoices.Hit
-        return TurnChoices.Stay
+    def double_down(self, handIndex: int) -> None:
+        pass
 
-    def __str__(self) -> str:
-        text = super().__str__()
-        if(self.value[0] != self.value[1]):
-            text += " ==> {l}/{h}".format(l=str(self.value[0]), h=str(self.value[1]))
-        else:
-            text += " ==> {v}".format(v=str(self.value[0]))
-        return text
-        # text += "==> {}".format(v=str(self.value))
+    
